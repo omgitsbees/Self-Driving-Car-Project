@@ -206,3 +206,106 @@ image = image.unsqueeze(0).to(device)
 output = model(image)
 label = torch.argmax(output, 1)
 visualize_results(image, label)
+
+---------------------------------------------------------------------------------------
+
+Flow Estimation with CNN-RNN Architecture
+
+This project implements a deep learning model for optical flow estimation using a combination of Convolutional Neural Networks (CNN) and Recurrent Neural Networks (RNN). The model is designed to analyze sequential image data, such as video frames, and predict motion flow using transfer learning from a pre-trained ResNet50 model.
+Features
+
+    CNN-RNN Architecture: Combines CNN for feature extraction and RNN for sequential data modeling.
+    Data Augmentation: Random horizontal flip, rotation, resizing, and color jittering for robust training.
+    Transfer Learning: Utilizes ResNet50 with frozen layers to speed up training and improve accuracy.
+    Custom Head: Adds a custom classification head to the ResNet model for specific task prediction.
+
+Dataset
+
+The dataset used for this project consists of images and corresponding optical flow data. Images are augmented using various transformations to enhance the model's generalization ability.
+Model Architecture
+1. CNN Model:
+
+    Two convolutional layers followed by ReLU activations and max pooling.
+    Fully connected layers for feature reduction and classification.
+
+2. RNN Model:
+
+    LSTM with one layer to process the output from the CNN and model sequential dependencies in the data.
+
+3. Flow Estimation Model:
+
+    The CNN output is fed into the RNN for temporal analysis, followed by a fully connected layer to predict the optical flow.
+
+Setup and Installation
+
+    Clone the repository:
+
+    bash
+
+git clone https://github.com/your-username/flow-estimation.git
+cd flow-estimation
+
+Install the dependencies: Make sure you have Python 3.6+ installed. You can install the necessary libraries using:
+
+bash
+
+pip install -r requirements.txt
+
+Here's a list of the main dependencies:
+
+    torch
+    torchvision
+    matplotlib
+    opencv-python
+    numpy
+
+Prepare the dataset: Place your dataset in a directory structure as follows:
+
+bash
+
+    /path/to/waymo/dataset/
+        ├── images/
+        ├── flows/
+
+    Update the root_dir path in the code accordingly.
+
+Usage
+Training the Model
+
+Run the script to start training the model:
+
+bash
+
+python train.py
+
+During training, the loss will be printed for each epoch.
+Evaluation
+
+After training, the model will automatically evaluate its performance on the dataset and print the accuracy.
+
+bash
+
+Epoch 10, Loss: 0.0023
+Accuracy: 0.9354
+
+Visualizing the Results
+
+To visualize the results on a sample image, use the visualization function:
+
+bash
+
+python visualize.py --image path/to/sample/image.jpg
+
+This will display the original image along with the estimated flow overlaid.
+Customization
+
+    Model Configuration: Modify the CNN or RNN architecture by editing the CNNModel or RNNModel classes.
+    Hyperparameters: Adjust the learning rate, batch size, or the number of epochs by modifying the corresponding values in the script.
+
+Acknowledgments
+
+This project utilizes the following key components:
+
+    PyTorch for building and training the neural networks.
+    Torchvision for image transformations and pre-trained models.
+    Matplotlib for result visualization.
